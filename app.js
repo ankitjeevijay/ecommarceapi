@@ -9,7 +9,7 @@ dotenv.config({
 })
 
 connectdb()
-//app.use('/api',web)
+app.use('/api',web)
 
 
 
