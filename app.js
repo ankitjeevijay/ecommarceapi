@@ -4,6 +4,8 @@ const dotenv = require('dotenv')
 const connectdb = require('./db/connectdb')
 const web = require('./routes/web')
 
+app.use(express.json())
+
 dotenv.config({
     path:'.env'
 })
