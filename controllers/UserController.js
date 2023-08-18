@@ -1,11 +1,10 @@
-const registerModel = require('../models/Register')
-
-class FrontController {
+const UserModel = require('../models/UserModel')
+class UserController{
 
     static Register = async (req, res) => {
         try{
             const{name,email,mobileNo,address} = req.body
-            const result = new registerModel({
+            const result = new UserModel({
                 name:name,
                 email:email,
                 mobileNo:mobileNo,
@@ -17,16 +16,41 @@ class FrontController {
                 result
             })
 
-
-
         }catch(error){
             console.log(error)
         }
 
     }
+    static GetAllUser = async (req, res)=>{
+        try{
+            const AllData = await UserModel.find()
+            res.status(200).json({
+                success:true,
+                AllData
+            
+            })
+
+        }catch(error){
+            console.log(error)
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 
 }
-module.exports = FrontController
+module.exports = UserController

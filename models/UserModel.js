@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const registerschema = new mongoose.Schema({
+const userschema = new mongoose.Schema({
     name:{
         type:String,
         required:true
@@ -19,6 +19,6 @@ const registerschema = new mongoose.Schema({
     }
 },{timestamps:true})
 
-const registerModel = mongoose.model('ecommarceapi',registerschema)
+const UserModel = mongoose.model('ecommarceapi',userschema)
 
-module.exports = registerModel
+module.exports = UserModel
