@@ -16,7 +16,12 @@ const userschema = new mongoose.Schema({
     address:{
         type:String,
         required:true
+    },
+    password:{
+        type:String,
+        required:true
     }
+
 },{timestamps:true})
 
 const UserModel = mongoose.model('ecommarceapi',userschema)
