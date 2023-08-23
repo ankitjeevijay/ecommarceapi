@@ -25,48 +25,52 @@ class UserController{
           // console.log(myimage)
 
             
-        //     const{name,email,mobileNo,address,password, confirmPassword} = req.body
-        //     const user = await UserModel.findOne({email:email})
-        //     if(user){
-        //         res.status(401).json({
-        //             success:true,
-        //             message:'user allready exist'
-        //         })
+            const{name,email,mobileNo,address,password, confirmPassword} = req.body
+            const user = await UserModel.findOne({email:email})
+            if(user){
+                res.status(401).json({
+                    success:true,
+                    message:'user allready exist'
+                })
 
-        //     }else{
-        //         if(name && email && mobileNo && address ){
-        //             if(password == confirmPassword){
+            }else{
+                if(name && email && mobileNo && address ){
+                    if(password == confirmPassword){
 
-        //                 const hashPassword = await bcrypt.hash(password,10)
+                        const hashPassword = await bcrypt.hash(password,10)
 
-        //                 const result = new UserModel({
-        //                     name:name,
-        //                     email:email,
-        //                     mobileNo:mobileNo,
-        //                     address:address,
-        //                     password:hashPassword
-        //                 })
-        //                 await result.save()
-        //                 res.status(201).json({
-        //                     success:true,
-        //                     result
-        //                 })
+                        const result = new UserModel({
+                            name:name,
+                            email:email,
+                            mobileNo:mobileNo,
+                            address:address,
+                            password:hashPassword,
+                            image:{
+                                public_id: myimage.public_id,
+                                url: myimage.secure_url
+                             }
+                        })
+                        await result.save()
+                        res.status(201).json({
+                            success:true,
+                            result
+                        })
 
-        //             }else{
-        //                 res.status(401).json({
-        //                     success:true,
-        //                     message:'password and confirmPassword does not matched'
-        //                 })
-        //             }
+                    }else{
+                        res.status(401).json({
+                            success:true,
+                            message:'password and confirmPassword does not matched'
+                        })
+                    }
 
-        //         }else{
-        //             res.status(401).json({
-        //                 success:true,
-        //                 message:'All field are required'
-        //             })
-        //         }
+                }else{
+                    res.status(401).json({
+                        success:true,
+                        message:'All field are required'
+                    })
+                }
 
-        //    }
+           }
 
         }catch(error){
             console.log(error)
