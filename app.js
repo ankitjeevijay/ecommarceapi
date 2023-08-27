@@ -6,13 +6,15 @@ const web = require('./routes/web')
 const cors = require('cors')
 const cloudinary = require('cloudinary');
 const fileUpload = require("express-fileupload");
+const cookieParser = require('cookie-parser')
 
 
 
 
 // file uploader
 app.use(fileUpload({ useTempFiles: true }));
-
+// get token
+app.use(cookieParser())
 
 app.use(cors())
 

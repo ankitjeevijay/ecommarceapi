@@ -126,6 +126,18 @@ class UserController{
             console.log(error)
         }
     }
+    static Logout = async (req,res)=>{
+        try{
+            res.clearCookie('token')
+            res.status(401).json({
+                success:true,
+                message:'Logout successfuly'
+            })
+
+        }catch(error){
+            console.log(error)
+        }
+    }
     static GetAllUser = async (req, res)=>{
         try{
             const AllData = await UserModel.find()
@@ -137,6 +149,60 @@ class UserController{
 
         }catch(error){
             console.log(error)
+        }
+    }
+    static Profile = async (req, res)=>{
+        try{
+           const{name,email,_id} = req.admin
+           const data = await UserModel.findById(_id)
+           console.log(data)
+        }catch(error){
+            console.log(error)
+        }
+    }
+    static ChangePassword = async (req, res)=>{
+        try{
+           // console.log(req.body)
+           const{id} = req.admin
+           const {oldpassword, newpassword, confirmpassword} = req.body
+           if(oldpassword && newpassword && confirmpassword){
+            if(newpassword == confirmpassword){
+                const user = await UserModel.findById(id).select("+password")
+                //console.log(user)
+                const isMatch = await bcrypt.compare(oldpassword, user.password)
+                console.log(isMatch)
+                if(isMatch){
+                    const salt = await bcrypt.genSalt(10)
+                    const newHashPassword = await bcrypt.hash(newpassword,salt)
+                    await UserModel.findByIdAndUpdate(req.params.id,{
+                        $set:{password:newHashPassword} 
+                    });
+                    res.status(201).json({
+                        status:'success',
+                        message:'Password Updated successfully'
+                    })   
+                }else{
+                    res.status(400).json({
+                        status:'failed',
+                        message:'old password is incorrect'
+                    })
+                }
+    
+            }else{
+                res.status(400).json({
+                    status:'failed',
+                    message:'New password and old password does not matched'
+                })
+            }
+    
+           }else{
+            res.status(400).json({
+                status:'failed',
+                message:'All field are required'
+            })
+           }
+        }catch(error){
+          console.log(error)  
         }
     }
 
