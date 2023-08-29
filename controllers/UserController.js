@@ -153,9 +153,13 @@ class UserController{
     }
     static Profile = async (req, res)=>{
         try{
-           const{name,email,_id} = req.admin
-           const data = await UserModel.findById(_id)
-           console.log(data)
+           const{name,email,id} = req.admin
+          // console.log(id)
+           const data = await UserModel.findById(id)
+           res.status(200).json({
+            status:'success',
+            data
+           })
         }catch(error){
             console.log(error)
         }
@@ -170,7 +174,7 @@ class UserController{
                 const user = await UserModel.findById(id).select("+password")
                 //console.log(user)
                 const isMatch = await bcrypt.compare(oldpassword, user.password)
-                console.log(isMatch)
+                console.log(typeof isMatch); 
                 if(isMatch){
                     const salt = await bcrypt.genSalt(10)
                     const newHashPassword = await bcrypt.hash(newpassword,salt)
@@ -205,6 +209,8 @@ class UserController{
           console.log(error)  
         }
     }
+   
+
 
 
 

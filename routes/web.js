@@ -9,6 +9,7 @@ router.post('/verifyLogin', UserController.VerifyLogin)
 router.get('/logout', UserController.Logout)
 router.get('/allUser',Admin_auth,UserController.GetAllUser)
 router.get('/profile',Admin_auth,UserController.Profile)
+router.post('/updateProfile',Admin_auth,UserController.UpdateProfile)
 router.post('/changePassword', Admin_auth,UserController.ChangePassword)
 
 
